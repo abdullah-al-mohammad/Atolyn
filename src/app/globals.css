@@ -1,7 +1,6 @@
-/* @import 'material-icons/iconfont/material-icons.css'; */
+@import '@fortawesome/fontawesome-free/css/all.min.css';
 @import "tailwindcss";
 @plugin "daisyui";
-@import 'material-icons/iconfont/material-icons.css';
 
 :root {
   --background: #ffffff;
