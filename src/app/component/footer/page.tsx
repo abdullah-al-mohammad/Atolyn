@@ -6,10 +6,10 @@ export const Footer = () => {
       <div className="footer sm:footer-horizontal bg-[#0E4242] p-10 md:p-0 items-center justify-center">
         <aside>
           <div className="font-bold text-4xl md:text-6xl pt-10">
-            <span>
+            <a href="./" className="link link-hover">
             Let’s chat
             <i className="fa-solid fa-arrow-right ms-7"></i>
-            </span>
+            </a>
           </div>
         </aside>
       </div>
