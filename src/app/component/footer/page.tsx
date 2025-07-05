@@ -3,12 +3,12 @@ import React from "react";
 export const Footer = () => {
   return (
     <footer className="md:flex text-white">
-      <div className="footer sm:footer-horizontal bg-[#0E4242] p-10 md:p-0 items-center justify-center">
+      <div className="footer sm:footer-horizontal bg-[#0E4242] py-4 px-2 md:p-0 items-center justify-center">
         <aside>
           <div className="font-bold text-4xl md:text-6xl pt-10">
-            <a href="./" className="link link-hover">
+            <a href="./">
             Let’s chat
-            <i className="fa-solid fa-arrow-right ms-7"></i>
+            <i className="fa-solid fa-arrow-right ps-7 hover:transform hover:translate-x-0.5 ease-in-out transition-all"></i>
             </a>
           </div>
         </aside>
