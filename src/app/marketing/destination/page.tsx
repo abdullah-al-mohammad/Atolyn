@@ -9,16 +9,28 @@ const Destination  = () => {
     const container = document.querySelector('.container')
     const trigger = document.querySelector('.trigger')
         if(container && trigger){
-         ScrollTrigger.create({
-            trigger,
-            scroller: container, // if no scroller is defined, the viewport (window) is used.
-            start: "top center",
-            end: "+=500",
-            scrub: true,
-            markers: true,
-            pin: true
-            });
-            container.scrollTo({top: 100, behavior:"smooth"})
+            gsap.to('.container',{
+                scrollTrigger:{
+                    trigger:'.container',
+                    start: '20px center',
+                    markers: true,
+                    toggleActions: 'restart pause reverse pause'
+                },
+                x:400,
+                rotation:360,
+                duration:3
+            })
+        //  ScrollTrigger.create({
+        //     trigger, 
+        //     scroller: container, // if no scroller is defined, the viewport (window) is used.
+        //     start: "top center",
+        //     end: "+=500",
+        //     scrub: true,
+        //     markers: true,
+        //     pin: true
+        //     ho
+            // });
+            // container.scrollTo({top: 100, behavior:"smooth"})
         }
         
 
