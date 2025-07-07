@@ -1,59 +1,88 @@
-'use client'
+'use client';
+
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { gsap } from "gsap";
-import React, { useEffect } from 'react'
 
-const Destination  = () => {
-    useEffect(()=>{
-    gsap.registerPlugin(ScrollTrigger);
-    const container = document.querySelector('.container')
-    const trigger = document.querySelector('.trigger')
-        if(container && trigger){
-            gsap.to('.container',{
-                scrollTrigger:{
-                    trigger:'.container',
-                    start: '20px center',
-                    markers: true,
-                    toggleActions: 'restart pause reverse pause'
-                },
-                x:400,
-                rotation:360,
-                duration:3
-            })
-        //  ScrollTrigger.create({
-        //     trigger, 
-        //     scroller: container, // if no scroller is defined, the viewport (window) is used.
-        //     start: "top center",
-        //     end: "+=500",
-        //     scrub: true,
-        //     markers: true,
-        //     pin: true
-        //     ho
-            // });
-            // container.scrollTo({top: 100, behavior:"smooth"})
-        }
-        
+gsap.registerPlugin(ScrollTrigger);
 
-        // // get
-        // let position = st.scroll();
+export default function SimpleScrollText() {
+  const containerRef = useRef(null);
+  const text1Ref = useRef(null);
+  const text2Ref = useRef(null);
+  const desc1Ref = useRef(null);
+  const desc2Ref = useRef(null);
 
-        // // set
-        // st.scroll(100);
-    }, [])
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: '+=100vh',
+          scrub: true,
+          pin: true,
+          markers: true,
+        },
+      });
+
+      // Scroll out text1 + desc1
+      tl.to(text1Ref.current, { opacity: 0, y: -50, duration: 1 }, 0);
+      tl.to(desc1Ref.current, { opacity: 0, y: -30, duration: 1 }, 0);
+
+      // Scroll in text2 + desc2 (with color change)
+      tl.fromTo(
+        text2Ref.current,
+        { opacity: 0, y: 50, color: '#e63946' },
+        { opacity: 1, y: 0, color: '#2a9d8f', duration: 1 },
+        0.5
+      );
+      tl.fromTo(
+        desc2Ref.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1 },
+        0.5
+      );
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className='container'>
-        <h1>we worked on</h1>
-        <div className='trigger'>
-            <div className='text-5xl font-bold'>
-                <h1>brand consultancy</h1>
-                <h1>brand consultancy</h1>
-                <h1>brand consultancy</h1>
-                <h1>brand consultancy</h1>
-            </div>
-            <div></div>
+    <div
+      ref={containerRef}
+      className="h-screen bg-white text-black relative overflow-hidden"
+    >
+      {/* Side Descriptions */}
+      <div className="absolute top-1/2 left-10 -translate-y-1/2 text-sm w-64">
+        <div ref={desc1Ref} className="absolute opacity-100">
+          Description for Brand Consultancy
         </div>
-    </div>
-  )
-}
+        <div ref={desc2Ref} className="absolute opacity-0">
+          Description for Brand Marketing
+        </div>
+      </div>
 
-export default Destination
+      {/* Main Texts */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl font-bold text-center w-full">
+        <div
+          ref={text1Ref}
+          className="absolute opacity-100"
+          style={{ color: '#e63946' }}
+        >
+          Brand Consultancy
+        </div>
+        <div
+          ref={text2Ref}
+          className="absolute opacity-0"
+          style={{ color: '#2a9d8f' }}
+        >
+          Brand Marketing
+        </div>
+      </div>
+
+      {/* Scroll space */}
+      <div style={{ height: '100vh' }} />
+    </div>
+  );
+}
