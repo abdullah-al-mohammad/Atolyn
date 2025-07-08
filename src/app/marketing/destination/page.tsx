@@ -6,83 +6,156 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function SimpleScrollText() {
+export default function ScrollSections() {
   const containerRef = useRef(null);
-  const text1Ref = useRef(null);
-  const text2Ref = useRef(null);
-  const desc1Ref = useRef(null);
-  const desc2Ref = useRef(null);
+  const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const textsRef = useRef<(HTMLHeadingElement | null)[]>([]);
+  const descsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: '+=100vh',
-          scrub: true,
-          pin: true,
-          markers: true,
-        },
+      sectionsRef.current.forEach((section, i) => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: 'top center',
+            end: 'bottom center',
+            scrub: true,
+            markers: true
+          },
+        });
+
+        // Title animation
+        tl.fromTo(
+          textsRef.current[i],
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 1 },
+          0
+        );
+
+        // Description animation
+        tl.fromTo(
+          descsRef.current[i],
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 1 },
+          0.2
+        );
       });
-
-      // Scroll out text1 + desc1
-      tl.to(text1Ref.current, { opacity: 0, y: -50, duration: 1 }, 0);
-      tl.to(desc1Ref.current, { opacity: 0, y: -30, duration: 1 }, 0);
-
-      // Scroll in text2 + desc2 (with color change)
-      tl.fromTo(
-        text2Ref.current,
-        { opacity: 0, y: 50, color: '#e63946' },
-        { opacity: 1, y: 0, color: '#2a9d8f', duration: 1 },
-        0.5
-      );
-      tl.fromTo(
-        desc2Ref.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1 },
-        0.5
-      );
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
+  const titles = ['Brand Consultancy', 'Brand Marketing', 'Product Design'];
+  const descriptions = [
+    'Helps define your brand clearly',
+    'Spreads your message effectively',
+    'Creates beautiful usable products',
+  ];
+
   return (
-    <div
-      ref={containerRef}
-      className="h-screen bg-white text-black relative overflow-hidden"
-    >
-      {/* Side Descriptions */}
-      <div className="absolute top-1/2 left-10 -translate-y-1/2 text-sm w-64">
-        <div ref={desc1Ref} className="absolute opacity-100">
-          Description for Brand Consultancy
-        </div>
-        <div ref={desc2Ref} className="absolute opacity-0">
-          Description for Brand Marketing
-        </div>
-      </div>
-
-      {/* Main Texts */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl font-bold text-center w-full">
+    <div ref={containerRef} className="bg-white text-black">
+      {titles.map((title, i) => (
         <div
-          ref={text1Ref}
-          className="absolute opacity-100"
-          style={{ color: '#e63946' }}
+          key={i}
+          ref={(el) => (sectionsRef.current[i] = el)}
+          className="h-screen flex flex-col items-center justify-center space-y-4"
         >
-          Brand Consultancy
+          <h1
+            ref={(el) => (textsRef.current[i] = el)}
+            className="text-5xl font-bold opacity-0"
+          >
+            {title}
+          </h1>
+          <div
+            ref={(el) => (descsRef.current[i] = el)}
+            className="text-lg text-gray-600 opacity-0"
+          >
+            {descriptions[i]}
+          </div>
         </div>
-        <div
-          ref={text2Ref}
-          className="absolute opacity-0"
-          style={{ color: '#2a9d8f' }}
-        >
-          Brand Marketing
-        </div>
-      </div>
-
-      {/* Scroll space */}
-      <div style={{ height: '100vh' }} />
+      ))}
     </div>
   );
 }
+
+
+// 'use client';
+
+// import { useEffect, useRef } from 'react';
+// import { gsap } from 'gsap';
+// import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// gsap.registerPlugin(ScrollTrigger);
+
+// export default function ScrollSections() {
+//   const containerRef = useRef(null);
+
+//   useEffect(() => {
+//     const sections = gsap.utils.toArray('.section') as HTMLElement[];
+
+//     sections.forEach((section, index) => {
+//       const title = section.querySelector('.title');
+//       const desc = section.querySelector('.desc');
+
+//       // Animate title and description
+//       gsap.timeline({
+//         scrollTrigger: {
+//           trigger: section,
+//           start: 'top center',
+//           end: 'bottom center',
+//           scrub: true,
+//         },
+//       })
+//         .fromTo(title, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1 })
+//         .fromTo(desc, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1 }, 0.2);
+
+//       // Background color change
+//       ScrollTrigger.create({
+//         trigger: section,
+//         start: 'top center',
+//         end: 'bottom center',
+//         onEnter: () => {
+//           document.body.style.backgroundColor = section.dataset.bg || '#ffffff';
+//         },
+//         onEnterBack: () => {
+//           document.body.style.backgroundColor = section.dataset.bg || '#ffffff';
+//         },
+//       });
+//     });
+
+//     // Scroll snapping
+//     ScrollTrigger.defaults({ snap: 1 / (sections.length - 1) });
+//   }, []);
+
+//   return (
+//     <div ref={containerRef} className="text-black transition-colors duration-500">
+//       {/* Section 1 */}
+//       <div
+//         className="section h-screen flex flex-col items-center justify-center space-y-4"
+//         data-bg="#fefae0"
+//       >
+//         <h1 className="title text-5xl font-bold opacity-0">Brand Consultancy</h1>
+//         <p className="desc text-lg text-gray-600 opacity-0">Helps define your brand</p>
+//       </div>
+
+//       {/* Section 2 */}
+//       <div
+//         className="section h-screen flex flex-col items-center justify-center space-y-4"
+//         data-bg="#d8f3dc"
+//       >
+//         <h1 className="title text-5xl font-bold opacity-0">Brand Marketing</h1>
+//         <p className="desc text-lg text-gray-600 opacity-0">Spreads your message</p>
+//       </div>
+
+//       {/* Section 3 */}
+//       <div
+//         className="section h-screen flex flex-col items-center justify-center space-y-4"
+//         data-bg="#ffe5ec"
+//       >
+//         <h1 className="title text-5xl font-bold opacity-0">Product Design</h1>
+//         <p className="desc text-lg text-gray-600 opacity-0">Creates beautiful products</p>
+//       </div>
+//     </div>
+//   );
+// }
