@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Destination from "./marketing/destination/page";
+import { Destination } from "./marketing/destination/page";
 
 export default function Home() {
   return (
