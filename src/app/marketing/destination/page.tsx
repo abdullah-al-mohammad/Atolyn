@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 export const Destination = () => {
   const textRef = useRef<(HTMLElement | null)[]>([])
-  const containerRef = useRef()
+  const containerRef = useRef<HTMLDivElement | null>(null)
   const [active, setActive] = useState(0)
   console.log(textRef);
   
@@ -15,19 +15,23 @@ export const Destination = () => {
 
   const textData = [
     {
-      title: "First Text",
+      title: "brand consultancy",
       description: "This is the description of the first text item.",
     },
     {
-      title: "Second Text",
+      title: "brand marketing",
       description: "Details about the second item go here.",
     },
     {
-      title: "Third Text",
+      title: "software development",
       description: "Explanation for the third content is shown here.",
     },
     {
-      title: "Fourth Text",
+      title: "visual design",
+      description: "More info about the fourth text element.",
+    },
+    {
+      title: "visual editing",
       description: "More info about the fourth text element.",
     },
   ];
@@ -36,6 +40,13 @@ export const Destination = () => {
 
     ScrollTrigger.create({
 
+      // ✅ Pin entire section
+      trigger: containerRef.current,
+      start: "top top",
+      end: " bottom bottom",
+      pin: true,
+      scrub: true,
+      markers: true
     })
 
       // ScrollTrigger for each text
@@ -44,28 +55,28 @@ export const Destination = () => {
 
     ScrollTrigger.create({
       trigger: el,
-      start: "top 30%",
-      end: 'bottom, 30%',
+      start: "top top",
+      end: 'bottom 30%',
       onEnter: ()=> {setActive(i)},
       onEnterBack: ()=> setActive(i),
-      markers: true,
-      pin: true,
-      scrub: true
+      // markers: true,
     })
    })
+   return () => ScrollTrigger.getAll().forEach((t) => t.kill()); // clean up
   },[])
 
 
   return (
     <div className="" ref={containerRef}>
-      <div className="flex relative">
-        <div className="relative top-16">
-          <p className="sticky">{textData[active].description}</p>
+      <h5></h5>
+      <div className="flex gap-12">
+        <div className="w-1/2 sticky top-20 self-start">
+          <p className="text-lg">{textData[active].description}</p>
         </div>
-        <div>
+        <div className="w-1/2 flex flex-col gap-10">
           {
             textData.map((text, i)=>(
-              <h2 key={i} ref={(el) => {textRef.current[i] = el}} className={`text-3xl font-bold transition-all duration-300 ${active === i ? "text-rose-600 scale-110" : "text-gray-400 scale-100"}`}>{text.title}</h2>
+              <h2 key={i} ref={(el) => {textRef.current[i] = el}} className={`text-4xl uppercase font-bold transition-all duration-300 ${active === i ? "text-rose-600 scale-110" : "text-gray-400 scale-100"}`}>{text.title}</h2>
             ))
           }
         </div>
