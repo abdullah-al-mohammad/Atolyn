@@ -42,10 +42,10 @@ export const Destination = () => {
 
       // ✅ Pin entire section
       trigger: containerRef.current,
-      start: "top top",
-      end: " bottom bottom",
+      start: "top +=200",
+      end:() => `+=${textData.length * 200}`,
       pin: true,
-      scrub: true,
+      scrub: 1,
       markers: true
     })
 
@@ -55,19 +55,20 @@ export const Destination = () => {
 
     ScrollTrigger.create({
       trigger: el,
-      start: "top top",
-      end: 'bottom 30%',
+      start: "clamp(top 20%)",
+      end: 'clamp(bottom bottom)',
       onEnter: ()=> {setActive(i)},
       onEnterBack: ()=> setActive(i),
-      // markers: true,
+      markers: true,
     })
    })
-   return () => ScrollTrigger.getAll().forEach((t) => t.kill()); // clean up
+   return () => ScrollTrigger.getAll().forEach((t) => t.kill()); // clean uptop
   },[])
 
 
   return (
-    <div className="" ref={containerRef}>
+    <div>
+      <div className="" ref={containerRef}>
       <h5></h5>
       <div className="flex gap-12">
         <div className="w-1/2 sticky top-20 self-start">
@@ -80,7 +81,9 @@ export const Destination = () => {
             ))
           }
         </div>
-  </div>
+      </div>
+    </div>
+      {/* <div className="h-[50px]"></div> */}
     </div>
   )
 };
