@@ -2,10 +2,11 @@
 import gsap from 'gsap';
 import { ScrollSmoother } from 'gsap/ScrollSmoother';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const Comments = () => {
   const [reviews, setReviews] = useState([]);
+  const containerRef = useRef(null);
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -46,7 +47,7 @@ export const Comments = () => {
   }, []);
 
   return (
-    <div>
+    <div ref={containerRef}>
       {/* <h1 className="text-3xl font-bold capitalize mb-20 text-center">
         Beautiful blending of card and cardless designs
       </h1> */}
