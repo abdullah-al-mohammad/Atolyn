@@ -32,7 +32,7 @@ export const Comments = () => {
               trigger: '.c',
               start: 'top bottom', // when top of `.c` hits bottom of viewport
               end: 'bottom center', // when bottom of `.c` hits top of viewport
-              scrub: true, // ✅ smoothly link animation to scroll position
+              scrub: 1, // ✅ smoothly link animation to scroll position
               // markers: true,
             },
           });
