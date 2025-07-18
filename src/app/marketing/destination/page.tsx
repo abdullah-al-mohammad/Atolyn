@@ -50,8 +50,8 @@ export const Destination = () => {
     ScrollTrigger.create({
       // ✅ Pin entire section
       trigger: containerRef.current,
-      start: 'clamp(top +=200)',
-      end: () => `+=${textData.length * 50}`,
+      start: 'clamp(top +=150)',
+      end: () => `+=${textData.length * 60}`,
       pin: true,
       pinSpacing: false,
       scrub: 1,
@@ -77,7 +77,7 @@ export const Destination = () => {
   }, []);
 
   return (
-    <div className="min-h-screen mb-10">
+    <div className="min-h-screen">
       <div className="overflow-hidden" ref={containerRef}>
         <h5 className="mb-5 font-bold text-rose-400 text-2xl">✔ we worked on</h5>
         <div className="flex gap-20">

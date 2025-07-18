@@ -13,31 +13,33 @@ export const Comments = () => {
   useEffect(() => {
     const ctx = gsap.context(() => {
       const responsive = gsap.matchMedia();
-      responsive.add(
-        {
-          // Desktop
-          isDesktop: '(min-width: 1024px)',
-          // Tablet
-          isTablet: '(min-width: 640px) and (max-width: 1023px)',
-          // Mobile
-          isMobile: '(max-width: 639px)',
-        },
-        context => {
-          const { isDesktop, isTablet, isMobile } = context.conditions!;
-          gsap.to('.c', {
-            y: isDesktop ? -200 : isTablet ? -150 : -50, // move up while scrolling
-            ease: 'none', // no easing for scroll-linked effect
-            duration: 2,
-            scrollTrigger: {
-              trigger: '.c',
-              start: 'top bottom', // when top of `.c` hits bottom of viewport
-              end: 'bottom center', // when bottom of `.c` hits top of viewport
-              scrub: 1, // ✅ smoothly link animation to scroll position
-              // markers: true,
-            },
-          });
-        }
-      );
+      if (ScrollTrigger.isTouch) {
+        responsive.add(
+          {
+            // Desktop
+            isDesktop: '(min-width: 1024px)',
+            // Tablet
+            isTablet: '(min-width: 640px) and (max-width: 1023px)',
+            // Mobile
+            isMobile: '(max-width: 639px)',
+          },
+          context => {
+            const { isDesktop, isTablet, isMobile } = context.conditions!;
+            gsap.to('.c', {
+              y: isDesktop ? -100 : isTablet ? -50 : -50, // move up while scrolling
+              ease: 'none', // no easing for scroll-linked effect
+              duration: 2,
+              scrollTrigger: {
+                trigger: '.c',
+                start: 'clamp(top bottom)', // when top of `.c` hits bottom of viewport
+                end: 'clamp(bottom center)', // when bottom of `.c` hits top of viewport
+                scrub: 1, // ✅ smoothly link animation to scroll position
+                // markers: true,
+              },
+            });
+          }
+        );
+      }
     });
     return () => ctx.revert();
   }, []);
