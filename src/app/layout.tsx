@@ -30,12 +30,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-black dark:bg-black dark:text-white`}
       >
         <div id="smooth-wrapper">
-          <SmoothScroll>
-            <div id="smooth-content">
-              {children}
-              <Footer></Footer>
-            </div>
-          </SmoothScroll>
+          {/* <SmoothScroll> */}
+          <div id="smooth-content">
+            {children}
+            <Footer></Footer>
+          </div>
+          {/* </SmoothScroll> */}
         </div>
       </body>
     </html>
