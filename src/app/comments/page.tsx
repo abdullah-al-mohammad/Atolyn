@@ -2,7 +2,8 @@
 import gsap from 'gsap';
 import { ScrollSmoother } from 'gsap/ScrollSmoother';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import './comment.css';
 
 export const Comments = () => {
   const [reviews, setReviews] = useState([]);
@@ -18,10 +19,10 @@ export const Comments = () => {
   useEffect(() => {
     if (reviews.length === 0) return;
     const ctx = gsap.context(() => {
-      // const smoother = ScrollSmoother.create({
-      //   smooth: 1, // seconds to catch up
-      //   effects: true, // enable data-speed, data-lag, etc
-      // });
+      const smoother = ScrollSmoother.create({
+        smooth: 1, // seconds to catch up
+        effects: true, // enable data-speed, data-lag, etc
+      });
       const responsive = gsap.matchMedia();
 
       responsive.add(
@@ -45,7 +46,7 @@ export const Comments = () => {
               endTrigger: '.heading',
               end: 'clamp(top top+=40)', // when bottom of `.c` hits top of viewport
               scrub: 0.5, // ✅ smoothly link animation to scroll position
-              // markers: true,
+              markers: false,
             },
           });
         }
@@ -53,7 +54,8 @@ export const Comments = () => {
       const cards = gsap.utils.toArray('.card');
 
       cards.forEach((card: any, index) => {
-        const directionY = index % 2 === 0 ? 40 : -40;
+        const directionY = index % 2 === 0 ? 50 : -50;
+        console.log(directionY);
 
         gsap.fromTo(
           card,
@@ -65,13 +67,14 @@ export const Comments = () => {
               start: 'top bottom',
               end: 'bottom top',
               scrub: true,
+              markers: false,
             },
           }
         );
       });
     });
     return () => ctx.revert();
-  }, [reviews]);
+  }, [reviews]); // ✅ useEffect runs after data loaded
 
   return (
     <div>
@@ -80,32 +83,34 @@ export const Comments = () => {
         <h1 className="text-4xl">People love talking about us</h1>
       </div>
       <div className="h-24" />
-      <div className="c">
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-y-16 gap-x-5">
-          {reviews.map((review, i) => (
-            <div
-              key={i}
-              className="card bg-[#FBFDFF] w-full max-w-sm mx-auto shadow-sm p-0.25 relative"
-            >
-              <div className="card-body">
-                <h5>
-                  {[...Array(5)].map((_, j) => (
-                    <i key={j} className="fa-solid fa-star" style={{ color: '#FFD43B' }}></i>
-                  ))}
-                </h5>
-                <p className="card-title">{review.text}</p>
-                <div className="flex items-center gap-5">
-                  <div className="badge badge-outline w-10">
-                    <img src={review.image} alt="" />
-                  </div>
-                  <div>
-                    <p>{review.name}</p>
-                    <p>{review.job}</p>
+      <div className="">
+        <div className="c">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-y-16 gap-x-5 commentbg">
+            {reviews.map((review: any, i) => (
+              <div
+                key={i}
+                className="card bg-[#FBFDFF] w-full max-w-sm mx-auto shadow-sm p-0.25 relative"
+              >
+                <div className="card-body">
+                  <h5>
+                    {[...Array(5)].map((_, j) => (
+                      <i key={j} className="fa-solid fa-star" style={{ color: '#FFD43B' }}></i>
+                    ))}
+                  </h5>
+                  <p className="card-title">{review.text}</p>
+                  <div className="flex items-center gap-5">
+                    <div className="badge badge-outline w-10">
+                      <img src={review.image} alt="" />
+                    </div>
+                    <div>
+                      <p>{review.name}</p>
+                      <p>{review.job}</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
       {/* Bottom space to allow scrolling */}
