@@ -11,7 +11,6 @@ export const Destination = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [active, setActive] = useState(0);
-  console.log(textRef);
 
   const textData = [
     {
@@ -39,14 +38,6 @@ export const Destination = () => {
   ];
 
   useEffect(() => {
-    // ScrollSmoother.create({
-    //   wrapper: containerRef.current,
-    //   content: contentRef.current,
-    //   // smooth: 2,
-    //   smoothTouch: 0.1,
-    //   effects: true
-    // })
-
     ScrollTrigger.create({
       // ✅ Pin entire section
       trigger: containerRef.current,
@@ -79,10 +70,13 @@ export const Destination = () => {
   return (
     <div className="min-h-screen">
       <div className="overflow-hidden" ref={containerRef}>
-        <h5 className="mb-5 font-bold text-rose-400 text-2xl">✔ we worked on</h5>
-        <div className="flex gap-20">
-          <div className="min-w-1/3 md:w-1/2 sticky top-20 self-start transition-all duration-300">
-            <p className="text-lg">{textData[active].description}</p>
+        <h5 className="mb-5 flex items-center text-[#0B3131] text-2xl">
+          <p className="border rounded-full w-3 h-3 m-2 bg-black"></p>
+          we worked on
+        </h5>
+        <div className="flex gap-10">
+          <div className="min-w-1/3 md:w-1/2 sticky top-20 self-start transition-all duration-300 px-10">
+            <p className="text-lg text-[#0B3131]">{textData[active].description}</p>
           </div>
           <div ref={contentRef} className="min-w-1/3 md:w-1/2 flex flex-col gap-5">
             {textData.map((text, i) => (
@@ -92,7 +86,7 @@ export const Destination = () => {
                   textRef.current[i] = el;
                 }}
                 className={`text-4xl uppercase font-bold transition-all duration-300 ${
-                  active === i ? 'text-rose-600 scale-110' : 'text-gray-400 scale-100'
+                  active === i ? 'text-black scale-110' : 'text-[#0B313199] scale-100'
                 }`}
               >
                 {text.title}

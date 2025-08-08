@@ -52,19 +52,21 @@ export const Comments = () => {
         }
       );
       const cards = gsap.utils.toArray('.card');
-
-      cards.forEach((card: any, index) => {
-        const directionY = index % 2 === 0 ? 50 : -50;
-        console.log(directionY);
+      // select each card and scroll animation
+      cards.forEach((card: any, index: number) => {
+        const inner = card.querySelector('.card-body');
+        // const directionY = index % 2 === 0 ? -20 : 10;
+        const directionY = -100;
 
         gsap.fromTo(
           card,
-          { y: 0 },
+          { y: directionY },
           {
-            y: directionY,
+            y: 0,
+            opacity: 1,
             scrollTrigger: {
               trigger: card,
-              start: 'top bottom',
+              start: 'top 85%',
               end: 'bottom top',
               scrub: true,
               markers: false,
@@ -77,19 +79,19 @@ export const Comments = () => {
   }, [reviews]); // ✅ useEffect runs after data loaded
 
   return (
-    <div>
+    <div className="commentbg">
       <div className="text-center mb-32 heading relative z-10">
         <p>In the spolight</p>
         <h1 className="text-4xl">People love talking about us</h1>
       </div>
       <div className="h-24" />
-      <div className="">
-        <div className="c">
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-y-16 gap-x-5 commentbg">
+      <div className="c">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 items-start gap-x-5 gap-y-16">
             {reviews.map((review: any, i) => (
               <div
                 key={i}
-                className="card bg-[#FBFDFF] w-full max-w-sm mx-auto shadow-sm p-0.25 relative"
+                className="card bg-[#FBFDFF] w-full max-w-sm mx-auto shadow-sm p-0.25 relative overflow-hidden"
               >
                 <div className="card-body">
                   <h5>
@@ -114,7 +116,7 @@ export const Comments = () => {
         </div>
       </div>
       {/* Bottom space to allow scrolling */}
-      {/* <div className="h-[200vh]" /> */}
+      {/* <div className="h-[50vh]" /> */}
     </div>
   );
 };
