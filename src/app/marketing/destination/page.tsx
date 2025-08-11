@@ -38,15 +38,24 @@ export const Destination = () => {
   ];
 
   useEffect(() => {
+    let smoother = ScrollSmoother.create({
+      smooth: 1.2,
+      effects: true,
+    });
+
+    return () => smoother.kill();
+  }, []);
+
+  useEffect(() => {
     ScrollTrigger.create({
       // ✅ Pin entire section
       trigger: containerRef.current,
-      start: 'clamp(top +=150)',
+      start: 'clamp(top +=150',
       end: () => `+=${textData.length * 60}`,
       pin: true,
-      pinSpacing: false,
+      pinSpacing: true,
       scrub: 1,
-      // markers: true,
+      markers: false,
     });
 
     // ScrollTrigger for each text
@@ -55,13 +64,13 @@ export const Destination = () => {
 
       ScrollTrigger.create({
         trigger: el,
-        start: 'clamp(top 20%)',
-        end: 'clamp(bottom bottom)',
+        start: 'top 20%',
+        end: 'bottom bottom',
         onEnter: () => {
           setActive(i);
         },
         onEnterBack: () => setActive(i),
-        // markers: true,
+        markers: false,
       });
     });
     return () => ScrollTrigger.getAll().forEach(t => t.kill()); // clean uptop
@@ -69,13 +78,13 @@ export const Destination = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="overflow-hidden" ref={containerRef}>
+      <div className="overflow-hidden mx-auto max-w-5xl" ref={containerRef}>
         <h5 className="mb-5 flex items-center text-[#0B3131] text-2xl">
           <p className="border rounded-full w-3 h-3 m-2 bg-black"></p>
           we worked on
         </h5>
-        <div className="flex gap-10">
-          <div className="min-w-1/3 md:w-1/2 sticky top-20 self-start transition-all duration-300 px-10">
+        <div className="flex gap-10 items-center">
+          <div className="min-w-1/3 md:w-1/2 transition-all duration-300">
             <p className="text-lg text-[#0B3131]">{textData[active].description}</p>
           </div>
           <div ref={contentRef} className="min-w-1/3 md:w-1/2 flex flex-col gap-5">
@@ -86,7 +95,7 @@ export const Destination = () => {
                   textRef.current[i] = el;
                 }}
                 className={`text-4xl uppercase font-bold transition-all duration-300 ${
-                  active === i ? 'text-black scale-110' : 'text-[#0B313199] scale-100'
+                  active === i ? 'text-black' : 'text-[#0B313199]'
                 }`}
               >
                 {text.title}

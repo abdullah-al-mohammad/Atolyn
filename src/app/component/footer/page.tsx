@@ -5,10 +5,10 @@ export const Footer = () => {
     <footer className="grid grid-cols-1 md:grid-cols-12 text-white">
       <div className="footer sm:footer-horizontal bg-[#0E4242] py-4 px-2 md:p-0 items-center justify-center group col-span-7">
         <aside>
-          <div className="font-bold text-4xl md:text-24xl pt-10">
+          <div className="font-bold text-4xl md:text-8xl pt-10">
             <a href="./" className="flex items-center">
               Let’s chat
-              <span className="opacity-0 translate-x-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-500 ease-in-out">
+              <span className="opacity-0 translate-x-0 group-hover:opacity-100 group-hover:translate-x-5 transition-all duration-500 ease-in-out">
                 <i className="fa-solid fa-arrow-right ps-2"></i>
               </span>
             </a>
